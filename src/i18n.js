@@ -13,7 +13,8 @@ i18n.use(initReactI18next).init({
                 'Password' : 'Password',
                 'Password Again' : 'Password Again',
                 'Redirecting' : 'Redirecting...',
-                'Login' : 'Login'
+                'Login' : 'Login',
+                'Unauthorized': 'Username or password is incorrect'
             }
         },
         tr:{
@@ -25,8 +26,9 @@ i18n.use(initReactI18next).init({
                 'User Name' : 'Kullanıcı Adı',
                 'Password' : 'Şifre',
                 'Password Again' : 'Şifre Tekrar',
-                'Redirecting' : 'Yönlendiriliyor',
-                'Login' : 'Giriş Yap'
+                'Redirecting' : 'Yönlendiriliyor...',
+                'Login' : 'Giriş Yap',
+                'Unauthorized': 'Kullanıcı adı veya şifre hatalı'
             }
         }
     },

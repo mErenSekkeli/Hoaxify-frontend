@@ -2,6 +2,7 @@ import React from "react";
 import {signup, changeLanguage} from  "../api/apiCalls";
 import Input from "../components/Input";
 import {withTranslation} from "react-i18next";
+import ButtonWithProgress from "../components/ButtonWithProgress";
 
 class UserSignUp extends React.Component{
 //bu class component. bir de functional component var app.js gibi
@@ -15,38 +16,6 @@ class UserSignUp extends React.Component{
         pendingApiCall: false,
         errors : {}
     }
-
-/*  onChangeName = event => {
-        this.setState({
-            name:event.target.value
-        });
-    }
-
-    onChangeSurname = event => {
-        this.setState({
-            surname:event.target.value
-        });
-    }
-
-    onChangeUserName = event => {
-        //değişimin gerçekleştiğini react'a söylüyor
-        this.setState({
-            userName: event.target.value
-        })
-    };
-
-    onChangePass = event => {
-        this.setState({
-            pass: event.target.value
-        })
-    };
-
-    onChangePass2 = event => {
-        this.setState({
-            pass2: event.target.value
-        })
-    };
-*/
     //bu hepsini tek bir yere topluyor
     onChange = event => {
         /*
@@ -85,11 +54,10 @@ class UserSignUp extends React.Component{
             pass2
         };
         
-        
         this.setState({pendingApiCall: true});
         //package.json dosyasında proxy ayarı yaptığımız için domaini yazmamıza gerek yok
         try{
-            const response = await signup(body);
+            await signup(body);
             //Başarılı kısmı
         }catch(error){
             if(error.response.data.validationErrors)
@@ -126,14 +94,8 @@ class UserSignUp extends React.Component{
                 <Input name="userName" label={t('User Name')} error={userName} onChange={this.onChange} />
                 <Input name="pass" label={t('Password')} error={pass} onChange={this.onChange} type="password" />
                 <Input name="pass2" label={t('Password Again')} error={pass2} onChange={this.onChange} type="password" />
-                <div className="text-center">
-                    <button
-                    name="signUpBtn"
-                    className="btn btn-primary my-3"
-                    onClick={this.onClickSignUp}
-                    disabled={pendingApiCall || pass2 !== undefined}>
-                        {(pendingApiCall) && <span className="spinner-grow spinner-grow-sm"></span>}
-                        {(!pendingApiCall) ? t('Sign Up') : t('Redirecting')}</button>
+                <div className="text-center mt-3 mb-2">
+                    <ButtonWithProgress onClick={this.onClickSignUp} disabled={pendingApiCall || pass2 !== undefined} redirecting={t('Redirecting')} pendingApiCall={pendingApiCall} text={t('Sign Up')} />
                 </div>
             </form>
             </div>

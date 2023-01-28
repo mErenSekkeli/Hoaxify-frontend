@@ -3,26 +3,41 @@ import Input from "../components/Input";
 import { changeLanguage } from "../api/apiCalls.js";
 import { withTranslation } from "react-i18next";
 import { login } from "../api/apiCalls.js";
+import axios from "axios";
+import ButtonWithProgress from "../components/ButtonWithProgress";
 
 class UserLogin extends React.Component{
 
     state = {
         username: null,
         password: null,
-        pendingApiCalls: null,
-        errors: {}
+        pendingApiCall: null,
+        error: null
+    }
+
+    //this function is called after the component is rendered
+    componentDidMount(){
+        axios.interceptors.request.use(request => {
+            this.setState({pendingApiCall: true});
+            return request;
+        });
+
+        axios.interceptors.response.use(response => {
+            this.setState({pendingApiCall: false});
+            return response;
+        }, error => {
+            this.setState({pendingApiCall: false});
+            throw error;
+        });
     }
 
 
     onChange = (event) => {
-        const {t} = this.props;
         const {name, value} = event.target;
-        const  {errors} = {...this.state};
-        errors[name] = undefined;
 
         this.setState({
             [name]: value,
-            errors
+            error : null
         });
 
     }
@@ -30,21 +45,20 @@ class UserLogin extends React.Component{
     onClickLogin = async (event) => {
         event.preventDefault();
         const {username, password} = this.state;
-
-        this.setState({pendingApiCall: true});
+        
+        this.setState({error: null});
 
         try{
-            const response = await login({
+            await login({
                 username,
                 password
             });
-        }catch(error){
-            if(error.response.data.validationErrors){
-                this.setState({errors: error.response.data.validationErrors});
+        }catch(apiError){
+            if(apiError.response.data.message){
+                this.setState({error: apiError.response.data.message});
             }
         }
 
-        this.setState({pendingApiCall: false});
     }
 
     onChangeLanguage = language => {
@@ -54,9 +68,9 @@ class UserLogin extends React.Component{
     }
 
     render(){
-        const {pendingApiCall, errors} = this.state;
-        const {userName, pass} = errors;
+        const {pendingApiCall, error, username, password} = this.state;
         const {t} = this.props;
+        const btnEnabled = username && password && username.length > 4 && password.length > 7;
         return(
             <body style={{backgroundImage : 'url(login_background.jpg)', backgroundSize: 'cover', height: '100vh'}}>
             <div className="container" >
@@ -64,16 +78,11 @@ class UserLogin extends React.Component{
             <div className="col-md-6 border border-primary border-2 rounded-4 my-4" style={{margin: 'auto', borderColor: '#14335F'}}>
             <form>
                 <h1 className="text-center">{t('Login')}</h1>
-                <Input name="username" label={t('User Name')} error={userName} onChange={this.onChange} />
-                <Input name="password" label={t('Password')} error={pass} onChange={this.onChange} type="password" />
-                <div className="text-center">
-                    <button
-                    name="signUpBtn"
-                    className="btn btn-primary my-3"
-                    onClick={this.onClickLogin}
-                    disabled={pendingApiCall}>
-                        {(pendingApiCall) && <span className="spinner-grow spinner-grow-sm"></span>}
-                        {(!pendingApiCall) ? t('Login') : t('Redirecting')}</button>
+                <Input name="username" label={t('User Name')} onChange={this.onChange} />
+                <Input name="password" label={t('Password')} onChange={this.onChange} type="password" />
+                {(error) && <div className="alert alert-danger">{t(error)}</div>}
+                <div className="text-center mt-4 mb-2">
+                    <ButtonWithProgress onClick={this.onClickLogin} disabled={!btnEnabled || pendingApiCall} pendingApiCall={pendingApiCall} redirecting={t('Redirecting')} text={t('Login')} />
                 </div>
             </form>
             </div>
