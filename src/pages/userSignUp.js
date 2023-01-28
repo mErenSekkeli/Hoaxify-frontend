@@ -16,7 +16,39 @@ class UserSignUp extends React.Component{
         pendingApiCall: false,
         errors : {}
     }
-    //bu hepsini tek bir yere topluyor
+
+/*  onChangeName = event => {
+        this.setState({
+            name:event.target.value
+        });
+    }
+
+    onChangeSurname = event => {
+        this.setState({
+            surname:event.target.value
+        });
+    }
+
+    onChangeUserName = event => {
+        //değişimin gerçekleştiğini react'a söylüyor
+        this.setState({
+            userName: event.target.value
+        })
+    };
+
+    onChangePass = event => {
+        this.setState({
+            pass: event.target.value
+        })
+    };
+
+    onChangePass2 = event => {
+        this.setState({
+            pass2: event.target.value
+        })
+    };
+*/
+   //bu hepsini tek bir yere topluyor
     onChange = event => {
         /*
         const value = event.target.value;
@@ -58,6 +90,7 @@ class UserSignUp extends React.Component{
         //package.json dosyasında proxy ayarı yaptığımız için domaini yazmamıza gerek yok
         try{
             await signup(body);
+            const response = await signup(body);
             //Başarılı kısmı
         }catch(error){
             if(error.response.data.validationErrors)
