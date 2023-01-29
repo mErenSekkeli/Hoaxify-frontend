@@ -3,6 +3,7 @@ import {signup, changeLanguage} from  "../api/apiCalls";
 import Input from "../components/Input";
 import {withTranslation} from "react-i18next";
 import ButtonWithProgress from "../components/ButtonWithProgress";
+import { withApiProgress } from "../shared/ApiProgress";
 
 class UserSignUp extends React.Component{
 //bu class component. bir de functional component var app.js gibi
@@ -13,41 +14,9 @@ class UserSignUp extends React.Component{
         userName: null,
         pass:null,
         pass2:null,
-        pendingApiCall: false,
         errors : {}
     }
 
-/*  onChangeName = event => {
-        this.setState({
-            name:event.target.value
-        });
-    }
-
-    onChangeSurname = event => {
-        this.setState({
-            surname:event.target.value
-        });
-    }
-
-    onChangeUserName = event => {
-        //değişimin gerçekleştiğini react'a söylüyor
-        this.setState({
-            userName: event.target.value
-        })
-    };
-
-    onChangePass = event => {
-        this.setState({
-            pass: event.target.value
-        })
-    };
-
-    onChangePass2 = event => {
-        this.setState({
-            pass2: event.target.value
-        })
-    };
-*/
    //bu hepsini tek bir yere topluyor
     onChange = event => {
         /*
@@ -86,19 +55,14 @@ class UserSignUp extends React.Component{
             pass2
         };
         
-        this.setState({pendingApiCall: true});
         //package.json dosyasında proxy ayarı yaptığımız için domaini yazmamıza gerek yok
         try{
             await signup(body);
-            const response = await signup(body);
             //Başarılı kısmı
         }catch(error){
             if(error.response.data.validationErrors)
                 this.setState({errors: error.response.data.validationErrors});
         }
-
-        this.setState({pendingApiCall:false});
-
         /*signup(body).then((response) => {
             this.setState({pendingApiCall:false});
         }).catch((error) =>{
@@ -113,13 +77,12 @@ class UserSignUp extends React.Component{
     }
 
     render(){
-        const {pendingApiCall, errors} = this.state;
+        const {errors} = this.state;
         const {name, surname, userName, pass, pass2} = errors;
-        const {t} = this.props;
+        const {t, pendingApiCall} = this.props;
         return(
-            <div className="container">
             <div className="row">
-            <div className="col-md-4 border border-2 rounded-4 my-4">
+            <div className="col-md-8 border border-primary border-2 rounded-4 my-4" style={{margin: 'auto', borderColor: '#14335F'}}>
             <form>
                 <h1 className="text-center">{t('Sign Up')}</h1>
                 <Input name="name" label={t('Name')} error={name} onChange={this.onChange} />
@@ -132,15 +95,12 @@ class UserSignUp extends React.Component{
                 </div>
             </form>
             </div>
-            <div>
-            <img src="https://flagcdn.com/h20/us.png" alt="United States" onClick={() => this.onChangeLanguage('en')} style={{cursor:'pointer'}}></img>
-            &nbsp;
-            <img src="https://flagcdn.com/h20/tr.png" alt="turkish" onClick={() => this.onChangeLanguage('tr')} style={{cursor:'pointer'}}></img>
-            </div>
-            </div>
             </div>
         );
     }
 }
 
-export default withTranslation()(UserSignUp);
+const case1 = withTranslation()(UserSignUp);
+const case2 = withApiProgress(case1, '/api/1.0/users');
+
+export default case2;
