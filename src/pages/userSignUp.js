@@ -82,7 +82,7 @@ class UserSignUp extends React.Component{
         const {t, pendingApiCall} = this.props;
         return(
             <div className="row">
-            <div className="col-md-8 border border-primary border-2 rounded-4 my-4" style={{margin: 'auto', borderColor: '#14335F'}}>
+            <div className="col-md-6 border border-primary border-2 rounded-4 my-4" style={{margin: 'auto', borderColor: '#14335F'}}>
             <form>
                 <h1 className="text-center">{t('Sign Up')}</h1>
                 <Input name="name" label={t('Name')} error={name} onChange={this.onChange} />

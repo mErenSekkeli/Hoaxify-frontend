@@ -5,6 +5,7 @@ import { withTranslation } from "react-i18next";
 import { login } from "../api/apiCalls.js";
 import ButtonWithProgress from "../components/ButtonWithProgress";
 import { withApiProgress } from "../shared/ApiProgress";
+import ChangeLangSelector from "./ChangeLangSelector.js";
 
 class UserLogin extends React.Component{
 
@@ -35,6 +36,7 @@ class UserLogin extends React.Component{
                 username,
                 password
             });
+            this.props.history.goBack();
         }catch(apiError){
             if(apiError.response.data.message){
                 this.setState({error: apiError.response.data.message});
@@ -53,8 +55,10 @@ class UserLogin extends React.Component{
         const {t, pendingApiCall} = this.props;
         const btnEnabled = username && password && username.length > 4 && password.length > 7;
         return(
+            <body style={{backgroundImage : 'url(login_background.jpg)', backgroundSize: 'cover', height: '100vh'}}>
+            <div className="container">
             <div className="row">
-            <div className="col-md-8 border border-primary border-2 rounded-4 my-4" style={{margin: 'auto', borderColor: '#14335F'}}>
+            <div className="col-md-6 border border-primary border-2 rounded-4 my-4" style={{margin: 'auto', borderColor: '#14335F'}}>
             <form>
                 <h1 className="text-center">{t('Login')}</h1>
                 <Input name="username" label={t('User Name')} onChange={this.onChange} />
@@ -65,7 +69,13 @@ class UserLogin extends React.Component{
                 </div>
             </form>
             </div>
+            <div className="m-5">
+            <ChangeLangSelector />
             </div>
+            </div>
+            </div>
+
+            </body>
         );
     }
 }
