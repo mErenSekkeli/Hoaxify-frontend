@@ -4,7 +4,7 @@ import './index.css';
 import './bootstrap-override.scss'
 import App from './container/App';
 import reportWebVitals from './reportWebVitals';
-
+import i18n from './i18n';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <App/>
