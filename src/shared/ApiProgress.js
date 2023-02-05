@@ -10,7 +10,6 @@ export function withApiProgress(WrappedComponent, path){
 
         //this function is called after the component is rendered
         componentDidMount(){
-            const {path} = this.props;
             this.requestInterceptor = axios.interceptors.request.use(request => {
                 if(request.url === path){
                     this.setState({pendingApiCall: true});
@@ -31,13 +30,14 @@ export function withApiProgress(WrappedComponent, path){
             });
         }
 
+        //It's called before the component is removed from the DOM
         componentWillUnmount(){
             axios.interceptors.request.eject(this.requestInterceptor);
             axios.interceptors.response.eject(this.responseInterceptor);
         }
 
         render(){
-            const {pendingApiCall} = this.state;
+            const pendingApiCall = this.state.pendingApiCall || this.props.pendingApiCall;
             return (
                 <WrappedComponent {...this.props} pendingApiCall={pendingApiCall} />
             );

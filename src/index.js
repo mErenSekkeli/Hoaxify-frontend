@@ -5,9 +5,18 @@ import './bootstrap-override.scss'
 import App from './container/App';
 import reportWebVitals from './reportWebVitals';
 import i18n from './i18n';
+//import AuthenticationContext from './shared/AuthenticationContext';
+import {Provider} from 'react-redux';
+import configStore from './redux/configStore.js';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const store = configStore();
+
 root.render(
-  <App/>
+  <Provider store={store}>
+  <App />
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
