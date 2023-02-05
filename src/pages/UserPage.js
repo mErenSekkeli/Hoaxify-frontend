@@ -1,10 +1,24 @@
 import React from "react";
+import ProfileCard from "../components/ProfileCard.js";
+import { connect } from "react-redux";
+//import { Authentication } from "../shared/AuthenticationContext";
 
-const UserPage = () => {
-    return (
-        <div className="container">
-        <h1 className="text-center">User Page</h1>
-        </div>
-    );
+class UserPage extends React.Component {
+    //static contextType = Authentication;
+    render() {
+        const username = this.props.username;
+        return (
+            <div className="container">
+                <ProfileCard username={username} />
+            </div>
+        );
+    }
 }
-export default UserPage;
+
+const mapStateToProps = (store) => {
+    return {
+        username: store.username
+    };
+};
+
+export default connect(mapStateToProps)(UserPage);

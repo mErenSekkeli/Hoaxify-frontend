@@ -4,6 +4,8 @@ import Input from "../components/Input";
 import {withTranslation} from "react-i18next";
 import ButtonWithProgress from "../components/ButtonWithProgress";
 import { withApiProgress } from "../shared/ApiProgress";
+import { connect } from "react-redux";
+import {signupHandler} from '../redux/authActions';
 
 class UserSignUp extends React.Component{
 //bu class component. bir de functional component var app.js gibi
@@ -46,6 +48,8 @@ class UserSignUp extends React.Component{
     onClickSignUp = async event => {
         event.preventDefault();
         const {name, surname, userName, pass, pass2} = this.state;
+        const {dispatch, history} = this.props;
+        const push = history.push;
         //eğer değişken ismiyle body'deki isim aynı ise direkt olarak yazabiliriz
         const body = {
             name,
@@ -57,9 +61,10 @@ class UserSignUp extends React.Component{
         
         //package.json dosyasında proxy ayarı yaptığımız için domaini yazmamıza gerek yok
         try{
-            await signup(body);
-            //Başarılı kısmı
+            await dispatch(signupHandler(body));
+            push('/');
         }catch(error){
+            console.log(error.response.data);
             if(error.response.data.validationErrors)
                 this.setState({errors: error.response.data.validationErrors});
         }
@@ -102,5 +107,6 @@ class UserSignUp extends React.Component{
 
 const case1 = withTranslation()(UserSignUp);
 const case2 = withApiProgress(case1, '/api/1.0/users');
+const case3 = withApiProgress(case2, '/api/1.0/auth');
 
-export default case2;
+export default connect()(case3);

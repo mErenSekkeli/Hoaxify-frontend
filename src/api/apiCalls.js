@@ -11,3 +11,7 @@ export const login = (body) =>{
 export const changeLanguage = language => {
    axios.defaults.headers['accept-language'] = language;
 }
+
+export const getUserByUsername = (username) => {
+   return axios.post(`/api/1.0/getUserByUserName?username=${username}`);
+}
