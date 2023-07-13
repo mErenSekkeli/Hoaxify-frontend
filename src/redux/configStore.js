@@ -3,6 +3,7 @@ import authReducer from './authReducer.js';
 import SecureLS from 'secure-ls';
 import CryptoJS from 'crypto-js';
 import thunk from 'redux-thunk';
+import { setAuthorizationHeader } from '../api/apiCalls.js';
 
 const ls = new SecureLS({encodingType: 'aes'});
 const key = CryptoJS.SHA256('user-auth').toString();//Normally this key should get from server side
@@ -35,7 +36,7 @@ const updateStateInStorage = (state) => {
   
 const configStore = () => {
     const loggedInState = getStateFromStorage();
-
+    setAuthorizationHeader(loggedInState);
     const store = configureStore({
         reducer: authReducer,
         preloadedState: loggedInState,
@@ -44,6 +45,7 @@ const configStore = () => {
 
     store.subscribe(() => {
         updateStateInStorage(store.getState());
+        setAuthorizationHeader(store.getState());
     });
 
     return store;

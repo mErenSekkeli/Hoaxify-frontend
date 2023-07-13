@@ -1,10 +1,10 @@
 import React from "react";
 import UserSignUp from "../pages/userSignUp";
-import UserLogin from "../pages/UserLogin";
+import UserLogin from "../pages/userLogin";
 import HomePage from "../pages/HomePage";
 import UserPage from "../pages/UserPage";
 import { HashRouter as Router, Route, Redirect, Switch } from "react-router-dom";
-import TopBar from "../components/TopBar.js";
+import TopBar from "../components/topBar.js";
 import { connect } from "react-redux";
 //import { Authentication } from "../shared/AuthenticationContext";
 

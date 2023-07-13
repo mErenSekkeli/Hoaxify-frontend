@@ -15,3 +15,16 @@ export const changeLanguage = language => {
 export const getUserByUsername = (username) => {
    return axios.post(`/api/1.0/getUserByUserName?username=${username}`);
 }
+
+export const getAllUsers = (page = 0, size = 5) => {
+   return axios.get('/api/1.0/usersList?page=' + page + '&size=' + size);
+}
+
+export const setAuthorizationHeader = ({username, password, isLoggedIn}) => {
+   if(isLoggedIn){
+      const authorizationHeaderValue = `Basic ${window.btoa(username + ':' + password)}`;
+      axios.defaults.headers['Authorization'] = authorizationHeaderValue;
+   }else {
+      delete axios.defaults.headers['Authorization'];
+   }
+}
