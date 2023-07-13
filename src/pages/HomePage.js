@@ -1,6 +1,7 @@
 import React from "react";
 import ChangeLangSelector from "./ChangeLangSelector.js";
 import { changeLanguage } from "../api/apiCalls.js";
+import UserList from "../components/UserList.js";
 const HomePage = () => {
   function  onChangeLanguage (language) {
         const {i18n} = this.props;
@@ -9,7 +10,7 @@ const HomePage = () => {
     }
     return (
         <div className="container">
-            <h1 className="text-center">Home Page</h1>
+            <div><UserList/></div>
             <div className="m-5">
             <ChangeLangSelector />
             </div>

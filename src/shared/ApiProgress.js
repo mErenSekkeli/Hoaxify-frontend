@@ -11,19 +11,19 @@ export function withApiProgress(WrappedComponent, path){
         //this function is called after the component is rendered
         componentDidMount(){
             this.requestInterceptor = axios.interceptors.request.use(request => {
-                if(request.url === path){
+                if(request.url.startsWith(path)){
                     this.setState({pendingApiCall: true});
                 }
                 return request;
             });
 
             this.responseInterceptor = axios.interceptors.response.use(response => {
-                if(response.config.url === path){
+                if(response.config.url.startsWith(path)){
                     this.setState({pendingApiCall: false});
                 }
                 return response;
             }, error => {
-                if(error.config.url === path){
+                if(error.config.url.startsWith(path)){
                     this.setState({pendingApiCall: false});
                 }
                 throw error;

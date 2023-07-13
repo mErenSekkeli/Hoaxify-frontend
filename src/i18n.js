@@ -17,6 +17,9 @@ i18n.use(initReactI18next).init({
                 'Unauthorized': 'Username or password is incorrect',
                 'Logout' : 'Logout',
                 'Profile' : 'My Profile',
+                'Users' : 'Users',
+                'Next' : 'Next',
+                'Previous' : 'Previous',
             }
         },
         tr:{
@@ -33,6 +36,9 @@ i18n.use(initReactI18next).init({
                 'Unauthorized': 'Kullanıcı adı veya şifre hatalı',
                 'Logout' : 'Çıkış Yap',
                 'Profile' : 'Profilim',
+                'Users' : 'Kullanıcılar',
+                'Next' : 'Sonraki',
+                'Previous' : 'Önceki',
             }
         }
     },

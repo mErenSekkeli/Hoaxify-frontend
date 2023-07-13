@@ -27,7 +27,7 @@ class UserLogin extends React.Component{
         });
 
     }
-
+    
     onClickLogin = async (event) => {
         event.preventDefault();
         const {username, password} = this.state;
@@ -54,7 +54,7 @@ class UserLogin extends React.Component{
     render(){
         const {error, username, password} = this.state;
         const {t, pendingApiCall} = this.props;
-        const btnEnabled = username && password && username.length > 4 && password.length > 7;
+        const btnEnabled = username && password && username.length > 4 && password.length > 3;
         return(
             <body style={{backgroundImage : 'url(login_background.jpg)', backgroundSize: 'cover', height: '100vh'}}>
             <div className="container">
@@ -71,7 +71,7 @@ class UserLogin extends React.Component{
             </form>
             </div>
             <div className="m-5">
-            <ChangeLangSelector />
+                <ChangeLangSelector />
             </div>
             </div>
             </div>
