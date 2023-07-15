@@ -13,7 +13,9 @@ class UserList extends Component {
           content: [],
           size: 10,
           number: 0
-        }
+        },
+        isLoading: false,
+        loadingFailure: false
     }
 
     componentDidMount() {
@@ -31,33 +33,68 @@ class UserList extends Component {
     }
 
     loadUsers = (page) => {
+        this.setState({ isLoading: true });
         getAllUsers(page).then(response => {
             this.setState({
-                page: response.data
+                page: response.data,
+                isLoading: false
             });
+        }).catch(error => {
+            this.setState({ loadingFailure: true, isLoading: false });
         });
     }
 
 
   render() {
     const {content: users, last, first} = this.state.page;
+    const {isLoading, loadingFailure} = this.state;
     const {t, pendingApiCall} = this.props;
-    return (
-      <div className="card">
-        <h3 className='card-header text-center'>{t('Users')}</h3>
-        <div className="list-group">
-          {
-              users.map((user) => {
-                  return <UserListItem key={user.userName} user={user} />  //Key must be unique for each element
-              })
-          }
-        </div>
-        <div className=''>
-            {(first === false && !pendingApiCall) && <button onClick={this.loadPrevious} className="m-2 btn btn-sm btn-light">{t('Previous')}</button> }
-            {(last === false && !pendingApiCall) && <button onClick={this.loadNext} className="m-2 btn btn-sm btn-light float-end">{t('Next')}</button> }
+
+    let actionDiv = (
+      <div className=''>
+            {first === false && <button onClick={this.loadPrevious} className="m-2 btn btn-sm btn-light">{t('Previous')}</button> }
+            {last === false && <button onClick={this.loadNext} className="m-2 btn btn-sm btn-light float-end">{t('Next')}</button> }
+      </div>
+    );
+
+    let loadingDiv = (
+      <div className='d-flex justify-content-center'>
+        <div className="spinner-grow text-secondary" role="status">
+        <span className="sr-only"></span>
         </div>
       </div>
     );
+
+    if(pendingApiCall) {
+        actionDiv = loadingDiv;
+    }
+
+    if(isLoading && !pendingApiCall) {
+        return(
+          <div className="container">{loadingDiv}</div>
+        );
+    }else if(loadingFailure) {
+      return(
+        <div className="alert alert-danger text-center" role="alert">
+          {t('Loading Failure')}
+        </div>
+      );
+    }else {
+      return (
+        <div className="card">
+            <h3 className='card-header text-center'>{t('Users')}</h3>
+            <div className="list-group">
+              {
+                  users.map((user) => {
+                      return <UserListItem key={user.userName} user={user} />  //Key must be unique for each element
+                  })
+              }
+            </div>
+            {actionDiv}
+        </div>
+      );
+    }
+    
   }
 }
 
