@@ -23,6 +23,7 @@ i18n.use(initReactI18next).init({
                 'Loading Failure': 'Loading Failure',
                 'Error': 'Error',
                 'User not found': 'User not found',
+                'Edit': 'Edit',
             }
         },
         tr:{
@@ -45,6 +46,7 @@ i18n.use(initReactI18next).init({
                 'Loading Failure': 'Yüklenemedi',
                 'Error': 'Hata',
                 'User not found': 'Kullanıcı bulunamadı',
+                'Edit': 'Düzenle',
             }
         }
     },
