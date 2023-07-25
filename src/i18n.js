@@ -24,6 +24,9 @@ i18n.use(initReactI18next).init({
                 'Error': 'Error',
                 'User not found': 'User not found',
                 'Edit': 'Edit',
+                'Save': 'Save',
+                'Cancel': 'Cancel',
+                'Access Forbidden': 'Access Forbidden',
             }
         },
         tr:{
@@ -47,6 +50,9 @@ i18n.use(initReactI18next).init({
                 'Error': 'Hata',
                 'User not found': 'Kullanıcı bulunamadı',
                 'Edit': 'Düzenle',
+                'Save': 'Kaydet',
+                'Cancel': 'İptal',
+                'Access Forbidden': 'Erişim Engellendi',
             }
         }
     },
