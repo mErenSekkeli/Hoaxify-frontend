@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard.js";
 import { getUser } from "../api/apiCalls.js";
 import { withTranslation } from 'react-i18next';
+import Spinner from "../components/Spinner.js";
 
 const UserPage = props => {
     const [user, setUser] = useState();
@@ -47,13 +48,7 @@ const UserPage = props => {
             </div>
         );
    }else {
-        return (
-            <div className='d-flex justify-content-center'>
-                <div className="spinner-grow text-secondary" role="status">
-                <span className="sr-only"></span>
-                </div>
-            </div>
-        );
+        return (<Spinner />);
    }
 
 }

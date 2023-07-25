@@ -4,6 +4,7 @@ import { withTranslation } from 'react-i18next';
 import UserListItem from './UserListItem.js';
 import { withApiProgress } from '../shared/ApiProgress.js';
 import { connect } from "react-redux";
+import Spinner from './Spinner.js';
 
 
 class UserList extends Component {
@@ -58,11 +59,7 @@ class UserList extends Component {
     );
 
     let loadingDiv = (
-      <div className='d-flex justify-content-center'>
-        <div className="spinner-grow text-secondary" role="status">
-        <span className="sr-only"></span>
-        </div>
-      </div>
+      <Spinner />
     );
 
     if(pendingApiCall) {

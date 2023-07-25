@@ -28,7 +28,7 @@ class TopBar extends Component {
         navbarLinks = (
             <ul className="navbar-nav ms-auto">
                 <li>
-                    <Link to={'user/' + username} className='nav-link'>{t('Profile')}</Link>
+                    <Link to={'/user/' + username} className='nav-link'>{t('Profile')}</Link>
                 </li>
                 <li>
                     <Link to='/login' onClick={onLogoutSuccess} className='nav-link'>
