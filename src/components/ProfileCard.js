@@ -8,6 +8,7 @@ import Input from "./Input.js";
 import { updateUser } from "../api/apiCalls";
 import Spinner from "./Spinner";
 import ErrorModal from "./ErrorModal";
+import Swal from "sweetalert2";
 
 const ProfileCard = (props) => {
     const pathUsername = props.match.params.username;
@@ -19,20 +20,34 @@ const ProfileCard = (props) => {
     const [newSurname, setNewSurname] = useState(surname);
     const [pendingApiCall, setPendingApiCall] = useState(false);
     const [forbidden, setForbidden] = useState(false);
+    const [newImage, setNewImage] = useState(undefined);
 
     const [editMode, setEditMode] = useState(false);
     let isNameChanged = false;
     const onClickSave = async() => {
         setPendingApiCall(true);
+        if(newName == '' || newSurname == ''){
+            setPendingApiCall(false);
+            setEditMode(false);
+            setNewName(name);
+            setNewSurname(surname);
+            Toast.fire({
+                icon: 'error',
+                title: t('Name and surname cannot be empty')
+            });
+            return;
+        }
         const body = {
             name: newName,
-            surname: newSurname
+            surname: newSurname,
+            image: (newImage != undefined) ? newImage.split(',')[1]: null
         };
         isNameChanged = true;
         try{
             let response = await updateUser(pathUsername, body);
             setNewName(response.data.name);
             setNewSurname(response.data.surname);
+            setNewImage(response.data.image);
             setEditMode(false);
         } catch(error){
             setEditMode(false);
@@ -45,9 +60,40 @@ const ProfileCard = (props) => {
     //if editMode is changed, useEffect will be called
     useEffect(() => {
         setPendingApiCall(false);
+        setNewImage(undefined);
         //setNewName(name);
         //setNewSurname(surname);  
     }, [editMode]);
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+        });
+
+    const onChangeFile = (event) => {
+        const file = event.target.files[0];
+        if(file == undefined) {
+            setNewImage(undefined);
+            return;
+        }
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        if (!allowedExtensions.exec(file.name)) {
+            Toast.fire({
+                icon: 'error',
+                title: t('Invalid file type')
+            });
+          event.target.value = '';
+          return;
+        }
+        
+        const fileReader = new FileReader();
+        fileReader.onloadend = () => {
+          setNewImage(fileReader.result);
+        }
+        fileReader.readAsDataURL(file);
+      }
 
     let message;
     if(pathUsername === username){
@@ -63,7 +109,7 @@ const ProfileCard = (props) => {
         return (
             <div className="card m-3">
                 <div className="card-header text-center">
-                    <ProfileImage user={user} width="200" height="200" hasShadow={true} />
+                    <ProfileImage user={user} width="200" height="200" hasShadow={true} tempimage={newImage} />
                     <h4>{pathUsername}</h4>
     
                     {(pathUsername == username) && <a className="btn btn-outline" title={t('Edit')} onClick={() => setEditMode(true)}><i className="material-symbols-outlined">edit</i></a>}
@@ -78,6 +124,7 @@ const ProfileCard = (props) => {
                                 {pendingApiCall && <div className="blur-background"></div>}
                                 <Input type="text" name="name" onChange={(e) => setNewName(e.target.value)} label={t('Name')} defaultValue={newName} />
                                 <Input type="text" name="surname" onChange={(e) => setNewSurname(e.target.value)} label={t('Surname')} defaultValue={newSurname} />
+                                <Input type="file" name="profile-image" onChange={onChangeFile} label={t('Profile Image')} />
                                 <button className="btn btn-primary d-inline-flex m-1" onClick={(e) => onClickSave()}><i className="material-symbols-outlined">save</i> {t('Save')}</button>
                                 <button className="btn btn-light d-inline-flex m-1" onClick={() => setEditMode(false)}><i className="material-symbols-outlined">cancel</i>{t('Cancel')}</button>
                             </div>

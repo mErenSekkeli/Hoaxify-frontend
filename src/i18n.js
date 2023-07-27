@@ -27,6 +27,9 @@ i18n.use(initReactI18next).init({
                 'Save': 'Save',
                 'Cancel': 'Cancel',
                 'Access Forbidden': 'Access Forbidden',
+                'Profile Image': 'Profile Image',
+                'Invalid file type': 'Invalid file type\n (Allowed extensions: jpg, jpeg, png)',
+                'Name and surname cannot be empty': 'Name and surname cannot be empty',
             }
         },
         tr:{
@@ -53,6 +56,9 @@ i18n.use(initReactI18next).init({
                 'Save': 'Kaydet',
                 'Cancel': 'İptal',
                 'Access Forbidden': 'Erişim Engellendi',
+                'Profile Image': 'Profil Resmi',
+                'Invalid file type': 'Geçersiz dosya türü\n (İzin verilen uzantılar: jpg, jpeg, png)',
+                'Name and surname cannot be empty': 'İsim ve soyisim boş bırakılamaz',
             }
         }
     },
