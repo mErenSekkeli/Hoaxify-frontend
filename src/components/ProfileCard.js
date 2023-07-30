@@ -15,15 +15,16 @@ const ProfileCard = (props) => {
     const {username} = useSelector((store) => ({username: store.userName}));
     const {user} = props;
     const {image, name, surname} = user;
-    const imageSource = image ? `/images/profile/${image}` : defaultPic;
     const [newName, setNewName] = useState(name);
     const [newSurname, setNewSurname] = useState(surname);
     const [pendingApiCall, setPendingApiCall] = useState(false);
     const [forbidden, setForbidden] = useState(false);
     const [newImage, setNewImage] = useState(undefined);
+    const [validationErrors, setValidationErrors] = useState({});
 
     const [editMode, setEditMode] = useState(false);
     let isNameChanged = false;
+    const [currentImage, setCurrentImage] = useState(image ? image : defaultPic);
     const onClickSave = async() => {
         setPendingApiCall(true);
         if(newName == '' || newSurname == ''){
@@ -45,12 +46,19 @@ const ProfileCard = (props) => {
         isNameChanged = true;
         try{
             let response = await updateUser(pathUsername, body);
+            
             setNewName(response.data.name);
             setNewSurname(response.data.surname);
             setNewImage(response.data.image);
+            setCurrentImage(response.data.image);
             setEditMode(false);
         } catch(error){
             setEditMode(false);
+            setValidationErrors(error.response.data.validationErrors);
+            Toast.fire({
+                icon: 'error',
+                title: error.response.data.validationErrors.image
+            });
             if(error.response.status === 403){
                 setForbidden(true);
             }
@@ -101,7 +109,7 @@ const ProfileCard = (props) => {
     }else{
         message = "You are viewing " + pathUsername + "'s profile";
     }
-    if(forbidden){
+    if(forbidden || validationErrors.length > 0){
         return (
             <ErrorModal t={t} message={'Access Forbidden'} />
         );
@@ -109,15 +117,15 @@ const ProfileCard = (props) => {
         return (
             <div className="card m-3">
                 <div className="card-header text-center">
-                    <ProfileImage user={user} width="200" height="200" hasShadow={true} tempimage={newImage} />
+                    <ProfileImage user={user} imagesrc={currentImage} width="200" height="200" hasShadow={true} tempimage={newImage} />
                     <h4>{pathUsername}</h4>
     
-                    {(pathUsername == username) && <a className="btn btn-outline" title={t('Edit')} onClick={() => setEditMode(true)}><i className="material-symbols-outlined">edit</i></a>}
+                    {(pathUsername === username) && <a className="btn btn-outline" title={t('Edit')} onClick={() => setEditMode(true)}><i className="material-symbols-outlined">edit</i></a>}
                 </div>
                  <div className="card-body text-center">
                     {!editMode && <span className="font-weight-bold">{newName} {newSurname}</span>}
     
-                    {(pathUsername == username) && <div className="d-flex justify-content-center">
+                    {(pathUsername === username) && <div className="d-flex justify-content-center">
                         {editMode && 
                             <div className="col-6 form-group">
                                 {pendingApiCall && <Spinner />}
