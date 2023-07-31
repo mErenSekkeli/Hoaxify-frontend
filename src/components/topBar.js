@@ -1,19 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import logo from '../logo.png';
 import {Link} from 'react-router-dom';
-import {withTranslation} from 'react-i18next';
+import { t, use } from "i18next";
 //import {Authentication} from '../shared/AuthenticationContext';
-import {connect} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import {logout} from '../redux/authActions';
-class TopBar extends Component {
-//  static contextType = Authentication;//just class types can be used as contextType
+import ProfileImage from './ProfileImage';
 
-    /*onClickLogout = () => {
-        this.props.dispatch(logout());
-    }*/
+const TopBar = props => {
 
-   render() {
-    const {t, isLoggedIn, username, onLogoutSuccess} = this.props;
+    const {isLoggedIn, username, name, surname, image} = useSelector((store) => ({
+        isLoggedIn: store.isLoggedIn,
+        username: store.username,
+        name: store.name,
+        surname: store.surname,
+        image: store.image
+    }));
+    const [menuVisible, setMenuVisible] = useState(false);
+    let dropdownClass = 'dropdown-menu';
+    const dispatch = useDispatch();
+    const onLogoutSuccess = () => {
+        dispatch(logout());
+    };
+
     let navbarLinks = (
         <ul className="navbar-nav ms-auto">
         <li>
@@ -24,16 +33,20 @@ class TopBar extends Component {
         </li>
     </ul>
     );
+
     if(isLoggedIn){
+        menuVisible && (dropdownClass += ' show');
         navbarLinks = (
             <ul className="navbar-nav ms-auto">
-                <li>
-                    <Link to={'/user/' + username} className='nav-link'>{t('Profile')}</Link>
-                </li>
-                <li>
-                    <Link to='/login' onClick={onLogoutSuccess} className='nav-link'>
-                    {t('Logout')}
-                    </Link>
+                <li className="nav-item dropdown p-0">
+                    <button className="btn btn-light-outline border-0 d-flex" style={{cursor: 'pointer'}} onClick={() => setMenuVisible(!menuVisible)} >
+                        <ProfileImage user={{username}} imagesrc={image} width='32' height='32' />
+                        <span className="nav-link dropdown-toggle">{name + ' ' + surname}</span>
+                    </button>
+                    <div className={dropdownClass} onClick={() => setMenuVisible(!menuVisible)}>
+                        <Link to={'/user/' + username} className='dropdown-item d-flex p-2'><i className='material-symbols-outlined me-2'>person</i> {t('Profile')}</Link>
+                        <span className="dropdown-item d-flex p-2" onClick={onLogoutSuccess}><i className='material-symbols-outlined me-2'>logout</i> {t('Logout')}</span>
+                    </div>
                 </li>
             </ul>
         );
@@ -52,22 +65,5 @@ class TopBar extends Component {
     );
 
   }
-}
 
-const topBarWithTranslation = withTranslation()(TopBar);
-const mapStateToProps = (store) => {
-    return {
-        isLoggedIn: store.isLoggedIn,
-        username: store.username
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onLogoutSuccess: () => {
-        return dispatch(logout());
-        }
-    };
-};
-        
-export default connect(mapStateToProps, mapDispatchToProps)(topBarWithTranslation);
+export default TopBar;
