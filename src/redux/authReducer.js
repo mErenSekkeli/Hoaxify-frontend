@@ -18,6 +18,12 @@ const defaultState = {
       ...action.payload
       };
     }
+    if(action.type === ACTIONS.UPDATE_SUCCESS){
+      return {
+        ...state,
+        ...action.payload
+      }
+    }
     return state;
   }
 

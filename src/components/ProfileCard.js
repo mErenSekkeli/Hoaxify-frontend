@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {withRouter} from "react-router-dom";
 import defaultPic from "../user_icon.png";
 import ProfileImage from "./ProfileImage.js";
@@ -9,6 +9,7 @@ import { updateUser } from "../api/apiCalls";
 import Spinner from "./Spinner";
 import ErrorModal from "./ErrorModal";
 import Swal from "sweetalert2";
+import { updateSuccess } from "../redux/authActions";
 
 const ProfileCard = (props) => {
     const pathUsername = props.match.params.username;
@@ -21,7 +22,7 @@ const ProfileCard = (props) => {
     const [forbidden, setForbidden] = useState(false);
     const [newImage, setNewImage] = useState(undefined);
     const [validationErrors, setValidationErrors] = useState({});
-
+    const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
     let isNameChanged = false;
     const [currentImage, setCurrentImage] = useState(image ? image : defaultPic);
@@ -52,6 +53,7 @@ const ProfileCard = (props) => {
             setNewImage(response.data.image);
             setCurrentImage(response.data.image);
             setEditMode(false);
+            dispatch(updateSuccess(response.data));
         } catch(error){
             setEditMode(false);
             setValidationErrors(error.response.data.validationErrors);

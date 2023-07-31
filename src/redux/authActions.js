@@ -39,3 +39,15 @@ export const signupHandler = (user) => {
     return response;
     };
 };
+
+export const updateSuccess = ({name, surname, image}) => {
+
+    return {
+        type: ACTIONS.UPDATE_SUCCESS,
+        payload: {
+            name,
+            surname,
+            image
+        }
+    };
+};
