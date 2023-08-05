@@ -30,6 +30,9 @@ i18n.use(initReactI18next).init({
                 'Profile Image': 'Profile Image',
                 'Invalid file type': 'Invalid file type\n (Allowed extensions: jpg, jpeg, png)',
                 'Name and surname cannot be empty': 'Name and surname cannot be empty',
+                'Send My Thoughts': 'Send My Thoughts',
+                'Your Thoughts Are Sending': 'Your Thoughts Are Sending',
+                'Your Thoughts Are Sent': 'Your Thoughts Are Sent',
             }
         },
         tr:{
@@ -59,6 +62,9 @@ i18n.use(initReactI18next).init({
                 'Profile Image': 'Profil Resmi',
                 'Invalid file type': 'Geçersiz dosya türü\n (İzin verilen uzantılar: jpg, jpeg, png)',
                 'Name and surname cannot be empty': 'İsim ve soyisim boş bırakılamaz',
+                'Send My Thoughts': 'Düşüncemi Gönder',
+                'Your Thoughts Are Sending': 'Düşünceleriniz Gönderiliyor',
+                'Your Thoughts Are Sent': 'Düşünceleriniz Gönderildi',
             }
         }
     },

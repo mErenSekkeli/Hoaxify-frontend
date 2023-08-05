@@ -3,7 +3,7 @@ import defaultPic from "../user_icon.png";
 
 const ProfileImage = (props) => {
     const {user, width, height, hasShadow, tempimage, imagesrc} = props;
-    const {image, username} = user;
+    const {username} = user;
     let imageSource = imagesrc ? 'images/' + imagesrc : defaultPic;
     return(
         <img className={hasShadow ? "rounded-circle m-1 shadow": "rounded-circle m-1"}
