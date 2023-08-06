@@ -33,6 +33,9 @@ i18n.use(initReactI18next).init({
                 'Send My Thoughts': 'Send My Thoughts',
                 'Your Thoughts Are Sending': 'Your Thoughts Are Sending',
                 'Your Thoughts Are Sent': 'Your Thoughts Are Sent',
+                'There are no hoaxes': 'There are no hoaxes',
+                'Load More': 'Load More',
+                'Loading': 'Loading'
             }
         },
         tr:{
@@ -65,6 +68,9 @@ i18n.use(initReactI18next).init({
                 'Send My Thoughts': 'Düşüncemi Gönder',
                 'Your Thoughts Are Sending': 'Düşünceleriniz Gönderiliyor',
                 'Your Thoughts Are Sent': 'Düşünceleriniz Gönderildi',
+                'There are no hoaxes': 'Henüz düşünce gönderilmedi',
+                'Load More': 'Daha Fazla Yükle',
+                'Loading': 'Yükleniyor',
             }
         }
     },

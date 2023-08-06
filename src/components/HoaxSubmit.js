@@ -1,8 +1,9 @@
 import ButonWithProgress from "./ButtonWithProgress";
 import {React, useState} from "react";
 import {t} from "i18next";
+import {withTranslation} from "react-i18next";
 import ProfileImage from "./ProfileImage";
-import { useSelector } from "react-redux";
+import { useSelector, connect } from "react-redux";
 import { postHoax } from "../api/apiCalls";
 import Swal from "sweetalert2";
 
@@ -58,4 +59,5 @@ const HoaxSubmit = () => {
     );
 }
 
-export default HoaxSubmit;
+const withTranslationHoaxSubmit = withTranslation()(HoaxSubmit);
+export default connect()(withTranslationHoaxSubmit);
