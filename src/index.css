@@ -34,5 +34,9 @@ code {
 }
 
 .light-purple {
-  background-image: linear-gradient(#f6cefc, #fff);
+  background-image: linear-gradient(#d4e4ff, #faeaff);
+}
+
+.gradient-background {
+  background: linear-gradient(90deg, #5e94ec, #da61ff);
 }

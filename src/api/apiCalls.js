@@ -40,3 +40,9 @@ export const updateUser = (username, body) => {
 export const postHoax = (username, hoax) => {
    return axios.post(`/api/1.0/hoaxes/${username}`, hoax);
 }
+
+export const getHoaxes = (page = 0, size = 5) => {
+   const path = `/api/1.0/hoaxes?page=${page}&size=${size}`;
+   //?sort=id,desc --> sort by id descending
+   return axios.get(path);
+}

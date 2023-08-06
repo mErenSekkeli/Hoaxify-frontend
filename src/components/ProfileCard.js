@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {withRouter} from "react-router-dom";
-import defaultPic from "../user_icon.png";
 import ProfileImage from "./ProfileImage.js";
 import { t } from "i18next";
 import Input from "./Input.js";
@@ -24,8 +23,7 @@ const ProfileCard = (props) => {
     const [validationErrors, setValidationErrors] = useState({});
     const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
-    let isNameChanged = false;
-    const [currentImage, setCurrentImage] = useState(image ? image : defaultPic);
+    const [currentImage, setCurrentImage] = useState(image);
     const onClickSave = async() => {
         setPendingApiCall(true);
         if(newName == '' || newSurname == ''){
@@ -44,7 +42,6 @@ const ProfileCard = (props) => {
             surname: newSurname,
             image: (newImage != undefined) ? newImage.split(',')[1]: null
         };
-        isNameChanged = true;
         try{
             let response = await updateUser(pathUsername, body);
             
