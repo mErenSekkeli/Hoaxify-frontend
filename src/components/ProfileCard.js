@@ -114,7 +114,7 @@ const ProfileCard = (props) => {
         );
     }else {
         return (
-            <div className="card m-3">
+            <div className="card mt-3">
                 <div className="card-header text-center">
                     <ProfileImage user={user} imagesrc={currentImage} width="200" height="200" hasShadow={true} tempimage={newImage} />
                     <h4>{pathUsername}</h4>

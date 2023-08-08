@@ -3,6 +3,7 @@ import ProfileCard from "../components/ProfileCard.js";
 import { getUser } from "../api/apiCalls.js";
 import { withTranslation } from 'react-i18next';
 import Spinner from "../components/Spinner.js";
+import HoaxFeed from "../components/HoaxFeed.js";
 
 const UserPage = props => {
     const [user, setUser] = useState();
@@ -44,7 +45,15 @@ const UserPage = props => {
    }else if(notFound !== undefined) {
         return (
             <div className="container">
-                <ProfileCard user={user} />
+                <div className="row">
+                    <ProfileCard user={user} />
+                </div>
+                <div className="row">
+                    <div className="p-3">
+                        <HoaxFeed userFromUserPage={user} />
+                    </div>
+                </div>
+                
             </div>
         );
    }else {

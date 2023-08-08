@@ -55,8 +55,8 @@ const TopBar = props => {
     return (
         <div className='shadow-sm bg-light'>
             <nav className="navbar navbar-light container navbar-expand">
-                <Link className='navbar-brand' to='/'>
-                    <img src={logo}  alt="Hoaxify Logo" width="80" />&nbsp;
+                <Link className='navbar-brand ms-2' to='/'>
+                    <img src={logo} alt="Hoaxify Logo" width="55" />&nbsp;
                 Hoaxify
                 </Link>
                 {navbarLinks}
