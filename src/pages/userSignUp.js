@@ -1,5 +1,5 @@
 import React from "react";
-import {signup, changeLanguage} from  "../api/apiCalls";
+import {changeLanguage} from  "../api/apiCalls";
 import Input from "../components/Input";
 import {withTranslation} from "react-i18next";
 import ButtonWithProgress from "../components/ButtonWithProgress";

@@ -1,5 +1,4 @@
 import React from "react";
-import defaultPic from "../user_icon.png";
 import { Link } from "react-router-dom";
 import ProfileImage from "./ProfileImage.js";
 const UserListItem = (props) => {

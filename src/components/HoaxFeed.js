@@ -4,18 +4,18 @@ import { t } from "i18next";
 import {withTranslation} from "react-i18next";
 import HoaxView from "./HoaxView";
 import { connect } from "react-redux";
-import Spinner from "./Spinner";
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 import ButtonWithProgress from "./ButtonWithProgress";
+import Spinner from "./Spinner";
 
-const HoaxFeed = () => {
+const HoaxFeed = (props) => {
     const [hoaxPage, setHoaxPage] = useState({ content: [], last: true, number: 0 });
     const {content, last, number} = hoaxPage;
-    const [pendingApiCall, setPendingApiCall] = useState(false);
+    const {userFromUserPage} = props;
+    const [pendingApiCall, setPendingApiCall] = useState(true);
     const loadHoaxes = async (page) => {
         try {
             setPendingApiCall(true);
-            const response = await getHoaxes(page);
+            const response = await getHoaxes(userFromUserPage, page);
             setHoaxPage(previousHoaxPage => ({
                 ...response.data,
                 content: [...previousHoaxPage.content, ...response.data.content]
@@ -31,14 +31,21 @@ const HoaxFeed = () => {
         loadHoaxes();
     }, []);
 
+    if(pendingApiCall) {
+        return (
+            <div className="row">
+                <Spinner />
+            </div>
+        );
+    }
+
     if(content.length === 0) {
         return <div className="d-flex justify-content-center alert alert-secondary"><i className="material-symbols-outlined">info</i>{t('There are no hoaxes')}</div>
     }
 
     return (
-        <div className="container">
             <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-12">
                     {content.map(hoax => {
                         return <HoaxView key={hoax.id} hoax={hoax} />;
                     }
@@ -46,7 +53,6 @@ const HoaxFeed = () => {
                     {!last && (<ButtonWithProgress className={"btn col-md-12 gradient-background text-light"} pendingApiCall={pendingApiCall} disabled={pendingApiCall} text={t('Load More')} redirecting={t('Loading')} onClick={pendingApiCall ? () => {} : () => loadHoaxes(number + 1)}></ButtonWithProgress>)}
                 </div>
             </div>
-        </div>
     );
 };
 
