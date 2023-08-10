@@ -47,3 +47,15 @@ export const getHoaxes = (userFromUserPage = null, page = 0, size = 5) => {
    //?sort=id,desc --> sort by id descending
    return axios.get(path);
 }
+
+export const getOldHoaxes = (id, userFromUserPage = null, page = 0, size = 5) => {
+   const path = (userFromUserPage !== null) ? `/api/1.0/users/${userFromUserPage.userName}/hoaxes/${id}?direction=before&page=${page}&size=${size}` :
+   `/api/1.0/hoaxes/${id}?direction=before&page=${page}&size=${size}`;
+   return axios.get(path);
+}
+
+export const getNewHoaxesCount = (id, userFromUserPage = null) => {
+   const path = (userFromUserPage !== null) ? `/api/1.0/users/${userFromUserPage.userName}/hoaxes/${id}?count=true` :
+   `/api/1.0/hoaxes/${id}?count=true`;
+   return axios.get(path);
+}
