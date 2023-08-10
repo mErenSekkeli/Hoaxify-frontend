@@ -5,7 +5,7 @@ import {withTranslation} from "react-i18next";
 import ProfileImage from "./ProfileImage";
 import { useSelector, connect } from "react-redux";
 import { postHoax } from "../api/apiCalls";
-import Swal from "sweetalert2";
+import { Toast } from "./Toast";
 
 const HoaxSubmit = () => {
     const {username, image} = useSelector((store) => ({
@@ -15,13 +15,6 @@ const HoaxSubmit = () => {
     const [focused, setFocused] = useState(false);
     const [hoax , setHoax] = useState('');
     const [pendingApiCall, setPendingApiCall] = useState(false);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-        });
 
     const sendHoaxify = async () => {
         const body = {
@@ -39,10 +32,20 @@ const HoaxSubmit = () => {
             });
         }catch (error) {
             setPendingApiCall(false);
-            Toast.fire({
-                icon: 'error',
-                title: error.response.data.validationErrors.content
-            });
+            //get status code 
+            var status = error.response.status;
+            if(status !== 500){
+                Toast.fire({
+                    icon: 'error',
+                    title: error.response.data.validationErrors.content
+                });
+            }else {
+                Toast.fire({
+                    icon: 'error',
+                    title: t('Something went wrong')
+                });
+            }
+            
         }
     };
 

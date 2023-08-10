@@ -36,7 +36,9 @@ i18n.use(initReactI18next).init({
                 'Your Thoughts Are Sent': 'Your Thoughts Are Sent',
                 'There are no hoaxes': 'There are no hoaxes',
                 'Load More': 'Load More',
-                'Loading': 'Loading'
+                'Loading': 'Loading',
+                'Something went wrong': 'Something went wrong',
+                'Load New Hoaxes': 'Load New Hoaxes',
             }
         },
         tr:{
@@ -72,6 +74,8 @@ i18n.use(initReactI18next).init({
                 'There are no hoaxes': 'Henüz düşünce gönderilmedi',
                 'Load More': 'Daha Fazla Yükle',
                 'Loading': 'Yükleniyor',
+                'Something went wrong': 'Bir şeyler ters gitti',
+                'Load New Hoaxes': 'Yeni Düşünceleri Yükle',
             }
         }
     },

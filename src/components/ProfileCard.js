@@ -7,8 +7,8 @@ import Input from "./Input.js";
 import { updateUser } from "../api/apiCalls";
 import Spinner from "./Spinner";
 import ErrorModal from "./ErrorModal";
-import Swal from "sweetalert2";
 import { updateSuccess } from "../redux/authActions";
+import { Toast } from "./Toast.js";
 
 const ProfileCard = (props) => {
     const pathUsername = props.match.params.username;
@@ -71,13 +71,6 @@ const ProfileCard = (props) => {
         //setNewName(name);
         //setNewSurname(surname);  
     }, [editMode]);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-        });
 
     const onChangeFile = (event) => {
         const file = event.target.files[0];
