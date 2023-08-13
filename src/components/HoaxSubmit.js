@@ -32,7 +32,6 @@ const HoaxSubmit = () => {
             });
         }catch (error) {
             setPendingApiCall(false);
-            //get status code 
             var status = error.response.status;
             if(status !== 500){
                 Toast.fire({
@@ -48,6 +47,10 @@ const HoaxSubmit = () => {
             
         }
     };
+
+    if(username === null) {
+        return null;
+    }
 
     return (
         <div className={focused ? "light-purple form-group card p-1" : "form-group card p-1"} onFocus={() => setFocused(true)} >
