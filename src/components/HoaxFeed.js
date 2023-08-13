@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { getHoaxes, getNewHoaxesCount, getOldHoaxes } from "../api/apiCalls";
+import { getHoaxes, getNewHoaxesCount, getOldHoaxes, getNewHoaxes } from "../api/apiCalls";
 import { t } from "i18next";
 import {withTranslation} from "react-i18next";
 import HoaxView from "./HoaxView";
@@ -9,7 +9,7 @@ import { Toast } from "./Toast";
 
 const HoaxFeed = (props) => {
     const [hoaxPage, setHoaxPage] = useState({ content: [], last: true, number: 0 });
-    const {content, last, number} = hoaxPage;
+    const {content, last} = hoaxPage;
     const {userFromUserPage} = props;
     const [pendingApiCall, setPendingApiCall] = useState(true);
     const [newHoaxCount, setNewHoaxCount] = useState(0);
@@ -37,6 +37,27 @@ const HoaxFeed = (props) => {
             });
         }
     };
+
+    const loadNewHoaxes = async () => {
+
+        setPendingApiCall(true);
+        try{
+            const response = await getNewHoaxes(firstHoaxId, userFromUserPage);
+            setHoaxPage(previousHoaxPage => ({
+                ...previousHoaxPage,
+                content: [...response.data, ...previousHoaxPage.content]
+                }));
+            setNewHoaxCount(0);
+            setPendingApiCall(false);
+        } catch(error) {
+            setPendingApiCall(false);
+            Toast.fire({
+                icon: t('Error'),
+                title: t('Something went wrong')
+            });
+        }
+    };
+
     useEffect(() => {
         const loadHoaxes = async (page) => {
             try {
@@ -82,7 +103,7 @@ const HoaxFeed = (props) => {
             }
         };
         //this polling is for only development if you want to know if there is any new item then u should use socket.io or something like that
-        let looper = setInterval(getCount, 5000);
+        let looper = setInterval(getCount, 20000);
         return function cleanup() {
             clearInterval(looper);
         };
@@ -97,7 +118,7 @@ const HoaxFeed = (props) => {
             <div className="containe">
                 <div className="row justify-content-center">
                     {newHoaxCount > 0 && (
-                        <ButtonWithProgress className={"btn col-md-3 d-flex justify-content-center gradient-background text-light"} pendingApiCall={pendingApiCall} disabled={pendingApiCall} text={newHoaxCount + " " + t('Load New Hoaxes')} redirecting={t('Loading')} onClick={pendingApiCall ? () => {} : () => loadOldHoaxes(0)}></ButtonWithProgress>
+                        <ButtonWithProgress className={"btn col-md-3 d-flex justify-content-center gradient-background text-light"} pendingApiCall={pendingApiCall} disabled={pendingApiCall} text={(newHoaxCount > 10) ? 10 : newHoaxCount + " " + t('Load New Hoaxes')} redirecting={t('Loading')} onClick={pendingApiCall ? () => {} : () => loadNewHoaxes()}></ButtonWithProgress>
                     )}
                 </div>
                 <div className="row">

@@ -26,7 +26,7 @@ const ProfileCard = (props) => {
     const [currentImage, setCurrentImage] = useState(image);
     const onClickSave = async() => {
         setPendingApiCall(true);
-        if(newName == '' || newSurname == ''){
+        if(newName === '' || newSurname === ''){
             setPendingApiCall(false);
             setEditMode(false);
             setNewName(name);
@@ -40,7 +40,7 @@ const ProfileCard = (props) => {
         const body = {
             name: newName,
             surname: newSurname,
-            image: (newImage != undefined) ? newImage.split(',')[1]: null
+            image: (newImage !== undefined) ? newImage.split(',')[1]: null
         };
         try{
             let response = await updateUser(pathUsername, body);
@@ -74,7 +74,7 @@ const ProfileCard = (props) => {
 
     const onChangeFile = (event) => {
         const file = event.target.files[0];
-        if(file == undefined) {
+        if(file === undefined) {
             setNewImage(undefined);
             return;
         }
