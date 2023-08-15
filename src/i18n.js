@@ -39,6 +39,7 @@ i18n.use(initReactI18next).init({
                 'Loading': 'Loading',
                 'Something went wrong': 'Something went wrong',
                 'Load New Hoaxes': 'Load New Hoaxes',
+                'File is uploaded': 'File is uploaded',
             }
         },
         tr:{
@@ -76,6 +77,7 @@ i18n.use(initReactI18next).init({
                 'Loading': 'Yükleniyor',
                 'Something went wrong': 'Bir şeyler ters gitti',
                 'Load New Hoaxes': 'Yeni Düşünceleri Yükle',
+                'File is uploaded': 'Dosya yüklendi',
             }
         }
     },
