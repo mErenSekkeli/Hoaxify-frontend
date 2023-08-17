@@ -40,6 +40,7 @@ i18n.use(initReactI18next).init({
                 'Something went wrong': 'Something went wrong',
                 'Load New Hoaxes': 'Load New Hoaxes',
                 'File is uploaded': 'File is uploaded',
+                'File is deleted': 'File is deleted',
             }
         },
         tr:{
@@ -78,6 +79,7 @@ i18n.use(initReactI18next).init({
                 'Something went wrong': 'Bir şeyler ters gitti',
                 'Load New Hoaxes': 'Yeni Düşünceleri Yükle',
                 'File is uploaded': 'Dosya yüklendi',
+                'File is deleted': 'Dosya silindi',
             }
         }
     },

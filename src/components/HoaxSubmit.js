@@ -4,7 +4,7 @@ import {t} from "i18next";
 import {withTranslation} from "react-i18next";
 import ProfileImage from "./ProfileImage";
 import { useSelector, connect } from "react-redux";
-import { postHoax, postHoaxAttachment } from "../api/apiCalls";
+import { postHoax, postHoaxAttachment, deleteHoaxAttachment } from "../api/apiCalls";
 import { Toast } from "./Toast";
 import Spinner from "./Spinner";
 
@@ -17,7 +17,8 @@ const HoaxSubmit = () => {
     const [hoax , setHoax] = useState('');
     const [pendingApiCall, setPendingApiCall] = useState(false);
     const [filePendingApiCall, setFilePendingApiCall] = useState(false);
-    const [newFile, setNewFile] = useState(undefined);
+    const [newFile, setNewFile] = useState({src: undefined, id: 0, name: undefined});
+    const [tempFile, setTempFile] = useState(undefined);
 
     const sendHoaxify = async () => {
         const body = {
@@ -61,10 +62,13 @@ const HoaxSubmit = () => {
                 icon: 'success',
                 title: t('File is uploaded')
             });
-            setFilePendingApiCall(false);
-            return response.data.name;
+            return response.data;
         } catch (error) {
             setFilePendingApiCall(false);
+            Toast.fire({
+                icon: 'error',
+                title: t('Something went wrong')
+            });
             return null;
         }
     }
@@ -72,7 +76,8 @@ const HoaxSubmit = () => {
     const onChangeFile = (event) => {
         const file = event.target.files[0];
         if(file === undefined) {
-            setNewFile(undefined);
+            setNewFile({src: undefined, id: 0, name: undefined});
+            
             return;
         }
         const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
@@ -87,10 +92,40 @@ const HoaxSubmit = () => {
         
         const fileReader = new FileReader();
         fileReader.onloadend = async () => {
-            setNewFile(fileReader.result);
-            uploadFile(file);
+            setTempFile(fileReader.result);
+            try {
+                const fileResponse = await uploadFile(file);
+                setNewFile({src: fileReader.result, id: fileResponse.id, name: fileResponse.name});
+                setFilePendingApiCall(false);
+              } catch (error) {
+                console.error('Upload failed:', error);
+              }
         }
         fileReader.readAsDataURL(file);
+    }
+
+    const cancelFile = async () => {
+        try {
+            setFilePendingApiCall(true);
+            const file = {
+                id: newFile.id,
+                name: newFile.name
+            };
+            await deleteHoaxAttachment(username, file);
+            setFilePendingApiCall(false);
+            Toast.fire({
+                icon: 'success',
+                title: t('File is deleted')
+            });
+        } catch (error) {
+            Toast.fire({
+                icon: 'error',
+                title: t('Something went wrong')
+            });
+            console.error('Delete failed:', error);
+        }
+        setTempFile(undefined);
+        setNewFile({src: undefined, id: 0, name: undefined});
     }
 
     if(username === null) {
@@ -107,17 +142,17 @@ const HoaxSubmit = () => {
                 <ButonWithProgress className="btn btn-primary mt-3" pendingApiCall={pendingApiCall} disabled={pendingApiCall} text={t('Send My Thoughts')} redirecting={t('Your Thoughts Are Sending')} onClick={sendHoaxify} />
                 <button className="btn btn-outline mt-3 ms-2" onClick={() => document.getElementsByClassName('d-none')[0].click()}><i className="material-symbols-outlined">attach_file</i></button>
                 <input type="file" className="d-none" onChange={onChangeFile} />
-                {(newFile && !filePendingApiCall) && (
+                {(newFile.src && !filePendingApiCall) && (
                     <div className="position-relative mt-2">
-                        <img src={newFile} className="img-thumbnail" alt="Hoax Attachment" width={"200"} />
-                        <button className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 mt-2 me-2" onClick={() => setNewFile(undefined)}>
+                        <img src={newFile.src} className="img-thumbnail" alt="Hoax Attachment" width={"200"} />
+                        <button className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 mt-2 me-2" onClick={cancelFile}>
                         <i className="material-symbols-outlined">clear</i>
                         </button>
                     </div>
                 )}
                 {(filePendingApiCall) && (
                     <div className="position-relative mt-2">
-                        <img src={newFile} className="img-thumbnail" alt="Hoax Attachment" width={"200"} />
+                        <img src={tempFile} className="img-thumbnail" alt="Hoax Attachment" width={"200"} />
                         <Spinner />
                     </div>
                 )}
