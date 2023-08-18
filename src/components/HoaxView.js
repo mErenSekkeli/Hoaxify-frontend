@@ -6,7 +6,7 @@ import {useTranslation} from "react-i18next";
 
 const HoaxView = (props) => {
     const {hoax} = props;
-    const {user, content, timestamp} = hoax;
+    const {user, content, timestamp, fileAttachment } = hoax;
     const {userName, image} = user;
 
     const {i18n} = useTranslation();
@@ -25,7 +25,11 @@ const HoaxView = (props) => {
             <div className="card-body">
                 {content}
             </div>
-           
+            {fileAttachment && (
+                <div className="card-footer text-center light-purple">
+                    <img className="img-fluid" src={"images/" + fileAttachment.name} alt={fileAttachment.name} style={{ maxHeight: "300px" }} />
+                </div>
+            )}
             
         </div>
     );
