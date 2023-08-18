@@ -22,7 +22,8 @@ const HoaxSubmit = () => {
 
     const sendHoaxify = async () => {
         const body = {
-            content: hoax
+            content: hoax,
+            attachmentId: newFile.id
         };
         setPendingApiCall(true);
         try {
