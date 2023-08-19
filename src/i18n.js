@@ -7,6 +7,8 @@ i18n.use(initReactI18next).init({
         en:{
             translation:{
                 'Sign Up' : 'Sign Up',
+                'Yes' : 'Yes',
+                'No' : 'No',
                 'Password Mismatch' : 'Password Mismatch',
                 'Name' : 'Name',
                 'Surname' : 'Surname',
@@ -41,11 +43,17 @@ i18n.use(initReactI18next).init({
                 'Load New Hoaxes': 'Load New Hoaxes',
                 'File is uploaded': 'File is uploaded',
                 'File is deleted': 'File is deleted',
+                'Delete Hoax': 'Delete Thoughts',
+                'Are you sure to delete this hoax?': 'Are you sure to delete this hoax?',
+                'Hoax Deleted': 'Thoughts Deleted',
+                'Access Forbidden': 'Access Forbidden',
             }
         },
         tr:{
             translation:{
                 'Sign Up' : 'Kayıt Ol',
+                'Yes' : 'Evet',
+                'No' : 'Hayır',
                 'Password Mismatch' : 'Şifreler Eşleşmiyor',
                 'Name' : 'İsim',
                 'Surname' : 'Soyisim',
@@ -80,6 +88,10 @@ i18n.use(initReactI18next).init({
                 'Load New Hoaxes': 'Yeni Düşünceleri Yükle',
                 'File is uploaded': 'Dosya yüklendi',
                 'File is deleted': 'Dosya silindi',
+                'Delete Hoax': 'Düşünceyi Sil',
+                'Are you sure to delete this hoax?': 'Bu düşünceyi silmek istediğinize emin misiniz?',
+                'Hoax Deleted': 'Düşünce Silindi',
+                'Access Forbidden': 'Erişim Engellendi',
             }
         }
     },
