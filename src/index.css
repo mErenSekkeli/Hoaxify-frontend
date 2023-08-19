@@ -40,3 +40,10 @@ code {
 .gradient-background {
   background: linear-gradient(90deg, #5e94ec, #da61ff);
 }
+
+.dropdown-toggle::after {
+  display:none!important;
+}
+.delete-hoax:hover {
+  background-color: #5e94ec;
+}

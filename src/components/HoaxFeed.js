@@ -58,6 +58,13 @@ const HoaxFeed = (props) => {
         }
     };
 
+    const onDeleteSuccess = (id) => {
+        setHoaxPage(previousHoaxPage => ({
+            ...previousHoaxPage,
+            content: previousHoaxPage.content.filter(hoax => hoax.id !== id)
+        }));
+    };
+
     useEffect(() => {
         const loadHoaxes = async (page) => {
             try {
@@ -125,7 +132,7 @@ const HoaxFeed = (props) => {
                 
                 <div className="col-md-12">
                     {content.map(hoax => {
-                        return <HoaxView key={hoax.id} hoax={hoax} />;
+                        return <HoaxView key={hoax.id} hoax={hoax} onDeleteSuccess={onDeleteSuccess} />;
                     }
                     )}
                     {!last && (<ButtonWithProgress className={"btn col-md-12 gradient-background text-light"} pendingApiCall={pendingApiCall} disabled={pendingApiCall} text={t('Load More')} redirecting={t('Loading')} onClick={pendingApiCall ? () => {} : () => loadOldHoaxes()}></ButtonWithProgress>)}

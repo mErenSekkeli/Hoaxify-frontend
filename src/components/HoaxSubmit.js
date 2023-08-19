@@ -4,7 +4,7 @@ import {t} from "i18next";
 import {withTranslation} from "react-i18next";
 import ProfileImage from "./ProfileImage";
 import { useSelector, connect } from "react-redux";
-import { postHoax, postHoaxAttachment, deleteHoaxAttachment } from "../api/apiCalls";
+import { postHoax, postHoaxAttachment, cancelHoaxAttachment } from "../api/apiCalls";
 import { Toast } from "./Toast";
 import Spinner from "./Spinner";
 
@@ -112,7 +112,7 @@ const HoaxSubmit = () => {
                 id: newFile.id,
                 name: newFile.name
             };
-            await deleteHoaxAttachment(username, file);
+            await cancelHoaxAttachment(username, file);
             setFilePendingApiCall(false);
             Toast.fire({
                 icon: 'success',
