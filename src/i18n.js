@@ -47,6 +47,8 @@ i18n.use(initReactI18next).init({
                 'Are you sure to delete this hoax?': 'Are you sure to delete this hoax?',
                 'Hoax Deleted': 'Thoughts Deleted',
                 'Access Forbidden': 'Access Forbidden',
+                'Delete My Account': 'Delete My Account',
+                'Are you sure to delete your account?': 'Are you sure to delete your account? This action cannot be undone!',
             }
         },
         tr:{
@@ -92,6 +94,9 @@ i18n.use(initReactI18next).init({
                 'Are you sure to delete this hoax?': 'Bu düşünceyi silmek istediğinize emin misiniz?',
                 'Hoax Deleted': 'Düşünce Silindi',
                 'Access Forbidden': 'Erişim Engellendi',
+                'Delete My Account': 'Hesabımı Sil',
+                'Are you sure to delete your account?': 'Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz!',
+
             }
         }
     },

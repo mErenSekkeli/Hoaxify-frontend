@@ -47,3 +47,21 @@ code {
 .delete-hoax:hover {
   background-color: #5e94ec;
 }
+
+.delete-account-div {
+  background-color: #f1efef;
+  -webkit-transition:  background-color 0.5s ease-out;
+ -moz-transition:  background-color 0.5s ease-out;
+ -o-transition:  background-color 0.5s ease-out;
+ -ms-transition:  background-color 0.5s ease-out;
+ transition:  background-color 0.5s ease-out;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+
+}
+
+.delete-account-div:hover {
+  cursor: pointer;
+  background-color: #fdb0b0;
+}
