@@ -4,11 +4,13 @@ import {withRouter} from "react-router-dom";
 import ProfileImage from "./ProfileImage.js";
 import { t } from "i18next";
 import Input from "./Input.js";
-import { updateUser } from "../api/apiCalls";
+import { updateUser, deleteUser } from "../api/apiCalls";
 import Spinner from "./Spinner";
 import ErrorModal from "./ErrorModal";
-import { updateSuccess } from "../redux/authActions";
+import { updateSuccess, logout } from "../redux/authActions";
 import { Toast } from "./Toast.js";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const ProfileCard = (props) => {
     const pathUsername = props.match.params.username;
@@ -93,7 +95,38 @@ const ProfileCard = (props) => {
           setNewImage(fileReader.result);
         }
         fileReader.readAsDataURL(file);
-      }
+    };
+
+    const onClickDeleteAccount = async () => {
+        confirmAlert({
+            title: t('Delete My Account'),
+            message: t('Are you sure to delete your account?'),
+            buttons: [
+                {
+                    label: t('Yes'),
+                    onClick: async () => {
+                        setPendingApiCall(true);    
+                        try {
+                            await deleteUser(pathUsername);
+                            setPendingApiCall(false);
+                            dispatch(logout());
+                        } catch (error) {
+                            setPendingApiCall(false);
+                            Toast.fire({
+                                icon: 'error',
+                                title: t('Something went wrong')
+                            });
+                        }
+                    },
+                },
+                {
+                    label: t('No'),
+                    onClick: () => {},
+                },
+            ],
+        });
+    };
+
 
     let message;
     if(pathUsername === username){
@@ -112,7 +145,7 @@ const ProfileCard = (props) => {
                     <ProfileImage user={user} imagesrc={currentImage} width="200" height="200" hasShadow={true} tempimage={newImage} />
                     <h4>{pathUsername}</h4>
     
-                    {(pathUsername === username) && <a className="btn btn-outline" title={t('Edit')} onClick={() => setEditMode(true)}><i className="material-symbols-outlined">edit</i></a>}
+                    {(pathUsername === username) && <a className="btn btn-outline" title={t('Edit')} onClick={() => setEditMode(!editMode)}><i className="material-symbols-outlined">edit</i></a>}
                 </div>
                  <div className="card-body text-center">
                     {!editMode && <span className="font-weight-bold">{newName} {newSurname}</span>}
@@ -127,6 +160,10 @@ const ProfileCard = (props) => {
                                 <Input type="file" name="profile-image" onChange={onChangeFile} label={t('Profile Image')} />
                                 <button className="btn btn-primary d-inline-flex m-1" onClick={(e) => onClickSave()}><i className="material-symbols-outlined">save</i> {t('Save')}</button>
                                 <button className="btn btn-light d-inline-flex m-1" onClick={() => setEditMode(false)}><i className="material-symbols-outlined">cancel</i>{t('Cancel')}</button>
+                                <div className="col-12 delete-account-div mt-2" onClick={onClickDeleteAccount}>
+                                    <span className="d-flex justify-content-center"><i className="material-symbols-outlined">directions_run</i>{t('Delete My Account')}</span>
+                                </div>
+                                    
                             </div>
                         }
                     </div>}
