@@ -36,7 +36,7 @@ class UserLogin extends React.Component{
         this.setState({error: null});
 
         try{
-           await dispatch(loginHandler({username, password}));
+           await dispatch(loginHandler({userName: username, pass: password}));
             push('/');
         }catch(apiError){
             if(apiError.response.data.message){
