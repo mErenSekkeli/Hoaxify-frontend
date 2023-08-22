@@ -16,12 +16,13 @@ export const loginSuccess = (authState) => {
 
 export const loginHandler = (credentials) => {
     return async function(dispatch) {
+        console.log(credentials);
     const response = await login(credentials);
     const authState = {
         isLoggedIn: true,
-        username: credentials.username,
-        ...response.data,
-        password: credentials.password
+        username: credentials.userName,
+        ...response.data.user,
+        token: response.data.token
     };
     dispatch(loginSuccess(authState));
     return response;
