@@ -7,7 +7,7 @@ import Input from "./Input.js";
 import { updateUser, deleteUser } from "../api/apiCalls";
 import Spinner from "./Spinner";
 import ErrorModal from "./ErrorModal";
-import { updateSuccess, logout } from "../redux/authActions";
+import { updateSuccess, logout, logoutSuccess } from "../redux/authActions";
 import { Toast } from "./Toast.js";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -109,7 +109,7 @@ const ProfileCard = (props) => {
                         try {
                             await deleteUser(pathUsername);
                             setPendingApiCall(false);
-                            dispatch(logout());
+                            dispatch(logoutSuccess());
                         } catch (error) {
                             setPendingApiCall(false);
                             Toast.fire({
