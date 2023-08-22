@@ -78,17 +78,10 @@ const HoaxFeed = (props) => {
             }catch (error) {
                 setPendingApiCall(false);
                 var status = error.response.status;
-                if(status !== 500){
-                    Toast.fire({
-                        icon: 'error',
-                        title: error.response.data.validationErrors.content
-                    });
-                }else {
-                    Toast.fire({
-                        icon: 'error',
-                        title: t('Something went wrong')
-                    });
-                }
+                Toast.fire({
+                    icon: 'error',
+                    title: t('Something went wrong')
+                });
             }
     
         };

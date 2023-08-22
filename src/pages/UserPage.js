@@ -19,9 +19,8 @@ const UserPage = props => {
                 setUser(response.data);
                 setNotFound(false);
             }catch (error) {
-                if(error.response.status === 404){
-                    setNotFound(true);
-                }
+                setNotFound(true);
+                
             }
         };
         loadUser();

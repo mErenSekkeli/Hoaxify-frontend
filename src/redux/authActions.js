@@ -1,9 +1,16 @@
 import * as ACTIONS from './Constants';
-import {login, signup} from '../api/apiCalls';
+import {login, signup, logout} from '../api/apiCalls';
 
-export const logout = () => {
-    return {
-        type: ACTIONS.LOGOUT_SUCCESS
+export const logoutSuccess = () => {
+    return async function(dispatch) {
+        try {
+            await logout();
+        } catch (error) {
+                
+        }
+        dispatch({
+            type: ACTIONS.LOGOUT_SUCCESS
+        });
     };
 };
 
@@ -33,8 +40,8 @@ export const signupHandler = (user) => {
     return async function(dispatch) {
     const response = await signup(user);
     const auth = {
-        username: user.userName,
-        password: user.pass
+        userName: user.userName,
+        pass: user.pass
     };
     await dispatch(loginHandler(auth));
     return response;

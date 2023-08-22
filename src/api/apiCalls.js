@@ -8,6 +8,10 @@ export const login = (body) =>{
    return axios.post('/api/1.0/auth', body);
 }
 
+export const logout = () =>{
+   return axios.post('/api/1.0/logout');
+}
+
 export const changeLanguage = language => {
    axios.defaults.headers['accept-language'] = language;
 }

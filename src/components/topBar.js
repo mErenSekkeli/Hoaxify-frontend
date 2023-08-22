@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import { t, use } from "i18next";
 //import {Authentication} from '../shared/AuthenticationContext';
 import {connect, useDispatch, useSelector} from 'react-redux';
-import {logout} from '../redux/authActions';
+import {logoutSuccess} from '../redux/authActions';
 import ProfileImage from './ProfileImage';
 
 const TopBar = props => {
@@ -20,7 +20,7 @@ const TopBar = props => {
     let dropdownClass = 'dropdown-menu';
     const dispatch = useDispatch();
     const onLogoutSuccess = () => {
-        dispatch(logout());
+        dispatch(logoutSuccess());
     };
 
     let navbarLinks = (
