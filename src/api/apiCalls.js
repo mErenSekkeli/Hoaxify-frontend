@@ -85,3 +85,15 @@ export const deleteHoax = (id) => {
 export const deleteUser = (username) => {
    return axios.delete(`/api/1.0/users/${username}`);
 }
+
+export const likeHoax = (id, body) => {
+   return axios.post(`/api/1.0/hoaxes/likes/${id}`, body);
+}
+
+export const unlikeHoax = (id, username) => {
+   return axios.delete(`/api/1.0/hoaxes/likes/${id}/${username}`);
+}
+
+export const getUsersLikes = (username) => {
+   return axios.get(`/api/1.0/users/${username}/likes`);
+}

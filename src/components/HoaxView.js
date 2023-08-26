@@ -1,23 +1,28 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import ProfileImage from "./ProfileImage";
 import { Link } from "react-router-dom";
 import { format } from "timeago.js";
 import {useTranslation} from "react-i18next";
 import { useSelector } from "react-redux";
 import HoaxDropDownButton from "./HoaxDropDownButton";
-import {deleteHoax} from "../api/apiCalls";
+import {deleteHoax, likeHoax, unlikeHoax} from "../api/apiCalls";
 import { Toast } from "./Toast";
 import Spinner from "./Spinner";
 import { t } from "i18next";
 
 const HoaxView = (props) => {
-    const {hoax, onDeleteSuccess} = props;
+    const {hoax, onDeleteSuccess, isLiked} = props;
     const {user, content, timestamp, fileAttachment } = hoax;
     const {userName, image} = user;
     const {currentUsername} = useSelector((store) => ({currentUsername: store.userName}));
     const [pendingApiCall, setPendingApiCall] = useState(false);
     const {i18n} = useTranslation();
     const isOwner = userName === currentUsername;
+    const [isAnimating, setIsAnimating] = useState(isLiked);
+
+    useEffect(() => {
+        setIsAnimating(isLiked);
+    }, [isLiked]);
 
     const onClickDelete = async () => {
         setPendingApiCall(true);
@@ -44,6 +49,44 @@ const HoaxView = (props) => {
             }
         }
     };
+
+    const handleHeartClick = async () => {
+        setIsAnimating(!isAnimating);
+        if(isAnimating) {
+            await unlikeTheHoax();
+        } else {
+            await likeTheHoax();
+        }
+    };
+
+    const likeTheHoax = async () => {
+        try {
+            const body = {
+                username: currentUsername,
+                hoaxId: hoax.id
+            };
+            await likeHoax(hoax.id, body);
+        } catch (error) {
+            setIsAnimating(false);
+            Toast.fire({
+                icon: 'error',
+                title: t('Something went wrong')
+            });
+        }
+    };
+
+    const unlikeTheHoax = async () => {
+        try {
+            await unlikeHoax(hoax.id, currentUsername);
+        } catch (error) {
+            setIsAnimating(true);
+            Toast.fire({
+                icon: 'error',
+                title: t('Something went wrong')
+            });
+        }
+    };
+
 
     if(pendingApiCall) {
         return (
@@ -81,6 +124,14 @@ const HoaxView = (props) => {
                     <img className="img-fluid" src={"images/" + fileAttachment.name} alt={fileAttachment.name} style={{ maxHeight: "300px" }} />
                 </div>
             )}
+
+            <div className="card-footer" style={{height:"45px"}}>
+                <div className="row">
+                    <div className="col-6">
+                        <div onClick={handleHeartClick} className={`heart ${(isAnimating) ? 'is_animating' : ''}`}></div>
+                    </div>
+                </div>
+            </div>
             
         </div>
     );
