@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import { getHoaxes, getNewHoaxesCount, getOldHoaxes, getNewHoaxes } from "../api/apiCalls";
+import { getHoaxes, getNewHoaxesCount, getOldHoaxes, getNewHoaxes, getUsersLikes } from "../api/apiCalls";
 import { t } from "i18next";
 import {withTranslation} from "react-i18next";
 import HoaxView from "./HoaxView";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import ButtonWithProgress from "./ButtonWithProgress";
 import { Toast } from "./Toast";
 
@@ -13,6 +13,8 @@ const HoaxFeed = (props) => {
     const {userFromUserPage} = props;
     const [pendingApiCall, setPendingApiCall] = useState(true);
     const [newHoaxCount, setNewHoaxCount] = useState(0);
+    const {currentUsername} = useSelector((store) => ({currentUsername: store.userName}));
+    const [likedHoaxIds, setLikedHoaxIds] = useState([]);
     let firstHoaxId = 0;
 
     if(content.length > 0) {
@@ -85,7 +87,20 @@ const HoaxFeed = (props) => {
             }
     
         };
+
+        const loadLikes = async () => {
+            try {
+                const response = await getUsersLikes(currentUsername);
+                setLikedHoaxIds(response.data.hoaxIds);
+            }catch (error) {
+                Toast.fire({
+                    icon: 'error',
+                    title: t('Something went wrong')
+                });
+            }
+        };
         loadHoaxes();
+        loadLikes();
     }, [userFromUserPage]);
 
 
@@ -125,7 +140,9 @@ const HoaxFeed = (props) => {
                 
                 <div className="col-md-12">
                     {content.map(hoax => {
-                        return <HoaxView key={hoax.id} hoax={hoax} onDeleteSuccess={onDeleteSuccess} />;
+                        let isLiked = false;
+                        (likedHoaxIds.includes(hoax.id)) && (isLiked = true);
+                        return <HoaxView key={hoax.id} hoax={hoax} isLiked={isLiked} onDeleteSuccess={onDeleteSuccess} />;
                     }
                     )}
                     {!last && (<ButtonWithProgress className={"btn col-md-12 gradient-background text-light"} pendingApiCall={pendingApiCall} disabled={pendingApiCall} text={t('Load More')} redirecting={t('Loading')} onClick={pendingApiCall ? () => {} : () => loadOldHoaxes()}></ButtonWithProgress>)}
