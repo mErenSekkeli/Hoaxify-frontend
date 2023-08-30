@@ -53,8 +53,10 @@ const HoaxView = (props) => {
     const handleHeartClick = async () => {
         setIsAnimating(!isAnimating);
         if(isAnimating) {
+            hoax.likeCount -= 1;
             await unlikeTheHoax();
         } else {
+            hoax.likeCount += 1;
             await likeTheHoax();
         }
     };
@@ -93,7 +95,7 @@ const HoaxView = (props) => {
             <Spinner />
         );
     }
-    
+
     const relativeTime = format(timestamp, i18n.language);
     return (
         <div className="card p-2 m-3">
@@ -127,8 +129,12 @@ const HoaxView = (props) => {
 
             <div className="card-footer" style={{height:"45px"}}>
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-6 d-flex">
                         <div onClick={handleHeartClick} className={`heart ${(isAnimating) ? 'is_animating' : ''}`}></div>
+                        <span style={{marginTop:"2px"}}>{hoax.likeCount}</span>
+                    </div>
+                    <div className="col-2">
+                        
                     </div>
                 </div>
             </div>
