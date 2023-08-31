@@ -90,3 +90,7 @@ code {
   from {background-position:left;}
   to { background-position:right;}
 }
+
+.comment-button {
+  cursor: pointer;
+}

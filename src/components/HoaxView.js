@@ -9,6 +9,7 @@ import {deleteHoax, likeHoax, unlikeHoax} from "../api/apiCalls";
 import { Toast } from "./Toast";
 import Spinner from "./Spinner";
 import { t } from "i18next";
+import CommentModal from "./CommentModal";
 
 const HoaxView = (props) => {
     const {hoax, onDeleteSuccess, isLiked} = props;
@@ -19,6 +20,7 @@ const HoaxView = (props) => {
     const {i18n} = useTranslation();
     const isOwner = userName === currentUsername;
     const [isAnimating, setIsAnimating] = useState(isLiked);
+    const [isCommentModalVisible, setIsCommentModalVisible] = useState(false);
 
     useEffect(() => {
         setIsAnimating(isLiked);
@@ -40,7 +42,7 @@ const HoaxView = (props) => {
                 Toast.fire({
                     icon: 'error',
                     title: t('Access Forbidden')
-                });
+                });          
             }else {
                 Toast.fire({
                     icon: 'error',
@@ -132,9 +134,14 @@ const HoaxView = (props) => {
                     <div className="col-6 d-flex">
                         <div onClick={handleHeartClick} className={`heart ${(isAnimating) ? 'is_animating' : ''}`}></div>
                         <span style={{marginTop:"2px"}}>{hoax.likeCount}</span>
+                        <span style={{marginTop:"4px", marginLeft:"25px"}} onClick={() => setIsCommentModalVisible(true)} className="comment-button material-symbols-outlined">
+                            mode_comment
+                        </span>
                     </div>
-                    <div className="col-2">
-                        
+                    <div className="col-12">
+                        {isCommentModalVisible && (
+                            <CommentModal show={isCommentModalVisible} onHide={() => setIsCommentModalVisible(false)} hoax={hoax} currentUsername={currentUsername}/>
+                        )}
                     </div>
                 </div>
             </div>
