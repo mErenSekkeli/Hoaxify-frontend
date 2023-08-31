@@ -49,6 +49,11 @@ i18n.use(initReactI18next).init({
                 'Access Forbidden': 'Access Forbidden',
                 'Delete My Account': 'Delete My Account',
                 'Are you sure to delete your account?': 'Are you sure to delete your account? This action cannot be undone!',
+                'Your comment': 'Your comment',
+                'Comments': 'Comments',
+                'Add Comment': 'Add Comment',
+                'Your comment is sent': 'Your comment is sent',
+                'Your comment must between 1 and 255 characters': 'Your comment must between 1 and 255 characters',
             }
         },
         tr:{
@@ -96,7 +101,11 @@ i18n.use(initReactI18next).init({
                 'Access Forbidden': 'Erişim Engellendi',
                 'Delete My Account': 'Hesabımı Sil',
                 'Are you sure to delete your account?': 'Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz!',
-
+                'Your comment': 'Yorumunuz',
+                'Comments': 'Yorumlar',
+                'Add Comment': 'Yorum Ekle',
+                'Your comment is sent': 'Yorumunuz gönderildi',
+                'Your comment must between 1 and 255 characters': 'Yorumunuz 1 ile 255 karakter arasında olmalıdır',
             }
         }
     },

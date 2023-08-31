@@ -97,3 +97,7 @@ export const unlikeHoax = (id, username) => {
 export const getUsersLikes = (username) => {
    return axios.get(`/api/1.0/users/${username}/likes`);
 }
+
+export const postHoaxComment = (id, body) => {
+   return axios.post(`/api/1.0/hoaxes/${id}/comments`, body);
+}
