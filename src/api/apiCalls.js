@@ -101,3 +101,15 @@ export const getUsersLikes = (username) => {
 export const postHoaxComment = (id, body) => {
    return axios.post(`/api/1.0/hoaxes/${id}/comments`, body);
 }
+
+export const getHoaxComments = (id, page = 0, size = 5) => {
+   return axios.get(`/api/1.0/hoaxes/${id}/comments?page=${page}&size=${size}`);
+}
+
+export const getOldComments = (hoaxId, commentId, page = 0, size = 5) => {
+   return axios.get(`/api/1.0/hoaxes/${hoaxId}/comments/${commentId}?direction=before&page=${page}&size=${size}`);
+}
+
+export const deleteComment = (id) => { 
+   return axios.delete(`/api/1.0/comments/${id}`);
+}
