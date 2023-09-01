@@ -18,7 +18,7 @@ const HoaxDropDownButton = (props) => {
     }, 100);
   };
 
-  const deleteHoax = () => {
+  const willUseFunction = () => {
     confirmAlert({
       title: t('Delete Hoax'),
       message: t('Are you sure to delete this hoax?'),
@@ -46,7 +46,7 @@ const HoaxDropDownButton = (props) => {
       
         <div className={isOpen ? "dropdown-menu show": "dropdown-menu"} aria-labelledby="dropdownMenuButton">
           {isOwner && (
-            <button className="dropdown-item d-flex" onClick={deleteHoax}><i className="material-symbols-outlined">delete</i> {t('Delete Hoax')}</button>
+            <button className="dropdown-item d-flex" onClick={willUseFunction}><i className="material-symbols-outlined">delete</i> {t('Delete Hoax')}</button>
           )}
         </div>
     </div>

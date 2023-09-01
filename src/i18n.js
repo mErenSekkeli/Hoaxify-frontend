@@ -54,6 +54,7 @@ i18n.use(initReactI18next).init({
                 'Add Comment': 'Add Comment',
                 'Your comment is sent': 'Your comment is sent',
                 'Your comment must between 1 and 255 characters': 'Your comment must between 1 and 255 characters',
+                'Comment Deleted': 'Comment Deleted',
             }
         },
         tr:{
@@ -106,6 +107,7 @@ i18n.use(initReactI18next).init({
                 'Add Comment': 'Yorum Ekle',
                 'Your comment is sent': 'Yorumunuz gönderildi',
                 'Your comment must between 1 and 255 characters': 'Yorumunuz 1 ile 255 karakter arasında olmalıdır',
+                'Comment Deleted': 'Yorum Silindi',
             }
         }
     },
