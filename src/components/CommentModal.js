@@ -96,7 +96,7 @@ const CommentModal = ({ show, onHide, hoax, currentUsername }) => {
         });
     } catch(error) {
         setPendingApiCall(false);
-        if(error.response.data.status == 400 ) {
+        if(error.response.data.status === 400 ) {
             Toast.fire({
                 icon: 'error',
                 title: t('Your comment must between 1 and 255 characters')

@@ -136,7 +136,7 @@ const HoaxView = (props) => {
                         <span style={{marginTop:"2px"}}>{hoax.likeCount}</span>
                         <span style={{marginTop:"4px", marginLeft:"25px"}} onClick={() => setIsCommentModalVisible(true)} className="comment-button material-symbols-outlined">
                             mode_comment
-                        </span>
+                        </span><span style={{marginTop:"2px", marginLeft:"20px"}}>{hoax.commentCount}</span>
                     </div>
                     <div className="col-12">
                         {isCommentModalVisible && (
